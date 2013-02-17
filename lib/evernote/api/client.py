@@ -53,6 +53,8 @@ class EvernoteClient(object):
             client.set_signature_method(oauth.SignatureMethod_PLAINTEXT())
 
         resp, content = client.request(self._get_endpoint('oauth'), 'POST')
+        if resp.status != 200:
+            return
         access_token = dict(urlparse.parse_qsl(content))
         self.token = access_token['oauth_token']
         return self.token
