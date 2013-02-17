@@ -49,6 +49,8 @@ class EvernoteClient(object):
         token = oauth.Token(oauth_token, oauth_token_secret)
         token.set_verifier(oauth_verifier)
         client = self._get_oauth_client(token)
+        if not oauth_token_secret:
+            client.set_signature_method(oauth.SignatureMethod_PLAINTEXT())
 
         resp, content = client.request(self._get_endpoint('oauth'), 'POST')
         access_token = dict(urlparse.parse_qsl(content))
